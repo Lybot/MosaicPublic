@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="MozaikaApp.Views.PrintSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MozaikaApp.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="800" Background="AliceBlue">
+    <UserControl.DataContext>
+        <local:PrintSettingsVm/>
+    </UserControl.DataContext>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <TextBlock  Text="{DynamicResource MainPrintSettings}" TextAlignment="Center"></TextBlock>
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Margin="0,10,0,0" TextAlignment="Center" Text="{DynamicResource PrintDpi}"></TextBlock>
+                        <TextBox IsEnabled="{Binding IsEditable}" Margin="20,0,20,0" TextAlignment="Center" Text="{Binding PrintDpi, Mode=TwoWay}"></TextBox>
+                        <TextBlock Margin="0,10,0,0" TextAlignment="Center" Text="{DynamicResource FirstPrinter}"></TextBlock>
+                        <ComboBox Margin="20,0,20,0" HorizontalContentAlignment="Center" ItemsSource="{Binding Printers}" SelectedItem="{Binding FirstPrinter,Mode=TwoWay}"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource SizeString}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding TextSize, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource ThicknessOfStroke}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding ThicknessSize, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource ColorString}" TextAlignment="Center"/>
+                        <xctk:ColorPicker Margin="20,0,20,0" Height="30" SelectedColor="{Binding FirstStringColor, Mode=TwoWay}"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource ColorOfStroke}" TextAlignment="Center"/>
+                        <xctk:ColorPicker Margin="20,0,20,0" Height="30" SelectedColor="{Binding SecondStringColor, Mode=TwoWay}"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource BackgroundTestColor}" TextAlignment="Center"/>
+                        <xctk:ColorPicker Margin="20,0,20,0" Height="30" SelectedColor="{Binding BackgroundColor}"></xctk:ColorPicker>
+                        <GroupBox Margin="0,10,0,0">
+                            <GroupBox.Header>
+                                <CheckBox Content="{DynamicResource UseIndents}" IsChecked="{Binding UseIndents}"></CheckBox>
+                            </GroupBox.Header>
+                            <StackPanel Visibility="{Binding IndentsVisibility}">
+                                <TextBlock Margin="20,10,20,0" Text="{DynamicResource TopIndent}" TextAlignment="Center"/>
+                                <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding TopIndent, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                                <TextBlock Margin="20,10,20,0" Text="{DynamicResource LeftIndent}" TextAlignment="Center"/>
+                                <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding LeftIndent, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Margin="0,10,0,0">
+                            <GroupBox.Header>
+                                <CheckBox Content="{DynamicResource SeveralPhotosSettings}" IsChecked="{Binding UseSeveralPhotosSettings}"></CheckBox>
+                            </GroupBox.Header>
+                            <StackPanel Visibility="{Binding SeveralPhotosVisibility}">
+                                <Button Content="{DynamicResource SeveralPhotosSettings}" Margin="10" Command="{Binding SeveralPhotosSettings}"></Button>
+                            </StackPanel>
+                        </GroupBox>
+                        <Button Margin="10" Content="{DynamicResource PrintTestPhoto}" Command="{Binding Refresh}"></Button>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        <xctk:Zoombox Grid.Row="0" x:Name="ZoomBox" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Margin="20,0,0,30" DragModifiers="{Binding KeyModifiers, Mode=OneTime}" RelativeZoomModifiers="{Binding KeyModifiers, Mode=OneTime}" KeepContentInBounds="True">
+            <Image Source="{Binding ResultImage}"></Image>
+        </xctk:Zoombox>
+        <!--<GroupBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" >
+            <GroupBox.Header>
+                <CheckBox IsChecked="{Binding SecondPrinterAvailable,Mode=TwoWay}" Content="{DynamicResource SecondPrinterSettings}" HorizontalContentAlignment="Center"></CheckBox>
+            </GroupBox.Header>
+            <StackPanel Visibility="{Binding SecondPrinterVisibility}">
+                <TextBlock Margin="0,10,0,0" TextAlignment="Center" Text="{DynamicResource SecondPrinter}"></TextBlock>
+                <ComboBox HorizontalContentAlignment="Center" ItemsSource="{Binding Printers}" SelectedItem="{Binding SecondPrinter,Mode=TwoWay}"/>
+            </StackPanel>
+        </GroupBox>-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="MozaikaApp.Views.MainSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:MozaikaApp.ViewModels"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800" Background="AliceBlue" Focusable="False">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox Header="{DynamicResource PuzzleSize}" IsEnabled="{Binding IsEditable}">
+                    <StackPanel>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource WidthMm}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center" TextWrapping="NoWrap" Text="{Binding WidthMm, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource HeightMm}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding HeightMm, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <!--<TextBlock Margin="20,10,20,0" Text="{DynamicResource PrintDpi}" TextAlignment="Center"/>
+                    <TextBox Margin="20,0,20,0" TextAlignment="Center" TextWrapping="NoWrap" Text="{Binding PrintDpi, Mode=TwoWay}" HorizontalAlignment="Stretch"/>-->
+                        <!--<TextBlock Margin="20,10,20,0" Text="{DynamicResource TextSize}" TextAlignment="Center"/>
+            <TextBox Margin="20,10,20,0" TextAlignment="Center" TextWrapping="NoWrap" Text="{Binding TextSize, Mode=TwoWay}" HorizontalAlignment="Stretch"/>-->
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource CountWidth}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center" TextWrapping="NoWrap" Text="{Binding CountWidth, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <TextBlock Margin="20,10,20,0" Text="{DynamicResource CountHeight}" TextAlignment="Center"/>
+                        <TextBox Margin="20,0,20,0" TextAlignment="Center"  TextWrapping="NoWrap" Text="{Binding CountHeight, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                        <RadioButton GroupName="Experimental" Content="Default" Margin="20,20,20,10" IsChecked="{Binding DefaultChecked}"></RadioButton>
+                        <RadioButton GroupName="Experimental" Content="Big mosaic " Margin="20,0,20,10" IsChecked="{Binding ExperimentalChecked}"></RadioButton>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox IsEnabled="{Binding IsEditable}">
+                    <GroupBox.Header>
+                        <CheckBox Foreground="{Binding LiteColor}" FontWeight="{Binding LiteFont}" Content="{DynamicResource LiteMethod}" HorizontalContentAlignment="Center"  IsChecked="{Binding LightMode, Mode=TwoWay}" IsEnabled="{Binding ProMode}"></CheckBox>
+                    </GroupBox.Header>
+                    <StackPanel Visibility="{Binding LightVisibility}">
+                        <TextBlock Text="{DynamicResource Transparency}" TextAlignment="Center"/>
+                        <Slider Name="TransparencySlider" Interval="1" Minimum="0" Maximum="1"  Value="{Binding Transparency}"></Slider>
+                        <TextBlock Text="{Binding Transparency}" TextAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox IsEnabled="{Binding IsEditable}">
+                    <GroupBox.Header>
+                        <CheckBox Foreground="{Binding ProColor}" FontWeight="{Binding ProFont}" Content="{DynamicResource ProMethod}" IsChecked="{Binding ProMode, Mode=TwoWay}" IsEnabled="{Binding LightMode}"></CheckBox>
+                    </GroupBox.Header>
+                    <StackPanel Visibility="{Binding ProVisibility}">
+                        <TextBlock Margin="20,5,20,0" TextAlignment="Center" Text="{DynamicResource Alpha}"/>
+                        <Slider Margin="20,0,20,0" Value="{Binding Alpha, Mode=TwoWay}"  Minimum="0" Maximum="1" HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding Alpha}" TextAlignment="Center"></TextBlock>
+                        <TextBlock Margin="20,5,20,0" TextAlignment="Center" Text="{DynamicResource Beta}"/>
+                        <Slider Margin="20,0,20,0" Value="{Binding Beta, Mode=TwoWay}"  Minimum="0" Maximum="1" HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding Beta}" TextAlignment="Center"></TextBlock>
+                        <TextBlock Margin="20,5,20,0" TextAlignment="Center" Text="{DynamicResource Gamma}"/>
+                        <Slider Margin="20,0,20,0" Value="{Binding Gamma, Mode=TwoWay}"  Minimum="-255" Maximum="255" HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding Gamma}" TextAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Source image">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Margin="10" Text="{Binding ForegroundPath, Mode=OneWay}"></TextBox>
+                        <Button Grid.Column="1" Margin="10" Command="{Binding ChooseForegroundPath}" Content="{DynamicResource ChooseFile}"></Button>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="{DynamicResource CroppingPhoto}">
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding FaceMode, Mode=TwoWay}" IsEnabled="{Binding CenterMode}" Content="{DynamicResource FaceMode}" Margin="10"/>
+                        <CheckBox IsChecked="{Binding CenterMode,Mode= TwoWay}" IsEnabled="{Binding FaceMode}" Content="{DynamicResource CenterMode}" Margin="10"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="{DynamicResource Language}">
+                    <StackPanel>
+                        <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}"></ComboBox>
+                    </StackPanel>
+                </GroupBox>
+                <Button Margin="10" Visibility="{Binding PreviewButtonVisibility}" Content="{DynamicResource Preview}" Height="35" Command="{Binding Preview}"></Button>
+                <!--<TextBox ToolTip="QUESTION for server"  Text="{Binding QuestionServer}" Margin="10,0,10,0" Height="30"></TextBox>
+                <Button Margin="10" Content="Save settings for server" Height="35" Command="{Binding SaveSettings}"></Button>-->
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Column="1" Width="300" Height="350" Visibility="{Binding LoadVisibility}">
+            <controls:ProgressRing Width="300" Height="300"  IsActive="True" Foreground="DarkGray"></controls:ProgressRing>
+            <TextBlock Text="{Binding StatusPhotos}" FontWeight="Bold" Margin="10" TextAlignment="Center"/>
+        </StackPanel>
+        <xctk:Zoombox x:Name="PreviewImage" Visibility="{Binding ImageVisibility}" Grid.Column="1" Margin="20,0,0,30" DragModifiers="{Binding KeyModifiers, Mode=OneTime}" RelativeZoomModifiers="{Binding KeyModifiers, Mode=OneTime}" KeepContentInBounds="True" >
+            <Image Source="{Binding Background}">
+                <!--<Image.RenderTransform>
+                    <ScaleTransform ScaleX="{Binding LiveProgressScale}" ScaleY="{Binding LiveProgressScale}" ></ScaleTransform>
+                </Image.RenderTransform>-->
+            </Image>
+        </xctk:Zoombox>
+        <Button Content="{DynamicResource CheckBackground}" Grid.Column="1" Height="60" Width="300" Visibility="{Binding ButtonVisibility}" Command="{Binding CheckBackground}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="MozaikaApp.Views.ProgressLiveView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MozaikaApp.ViewModels"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d" Background="AliceBlue">
+    <UserControl.DataContext>
+        <local:ProgressLiveVm/>
+    </UserControl.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Unloaded">
+            <i:EventTrigger.Actions>
+                <i:InvokeCommandAction Command="{Binding Unloaded}"></i:InvokeCommandAction>
+            </i:EventTrigger.Actions>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseWheel">
+                    <interactivity:InvokeCommandAction Command="{Binding LiveProgressCanvasWheel}"/>
+                </i:EventTrigger>-->
+            <!--</i:Interaction.Triggers>-->
+            <GroupBox Header="{DynamicResource Control}"  Margin="5" Padding="5">
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Label FontSize="20" VerticalContentAlignment="Center" Content="{DynamicResource TotalCells}"/>
+                            <Label FontSize="20" VerticalContentAlignment="Center"  Content="{DynamicResource AddedCells}"/>
+                            <Label FontSize="20" VerticalContentAlignment="Center" Content="{DynamicResource EmptyCells}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock VerticalAlignment="Center"  TextAlignment="Right" FontWeight="Bold" FontSize="20" Text="{Binding CountCells}" />
+                            <TextBlock VerticalAlignment="Center"   TextAlignment="Right" FontWeight="Bold" FontSize="20" Text="{Binding Added}" />
+                            <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Stretch" TextAlignment="Right" FontWeight="Bold" FontSize="20" Text="{Binding FreeCells}" />
+                        </StackPanel>
+                        <Label Grid.Column="0" FontSize="20" Grid.ColumnSpan="2" Grid.Row="1" Content="{DynamicResource CellsChoice}" HorizontalContentAlignment="Center" Margin="0,10,0,0" FontWeight="Bold"/>
+                        <StackPanel Grid.Column="0" Grid.Row="2">
+                            <Label FontSize="20" Margin="0,5,0,15" Content="{DynamicResource Raw}"/>
+                            <Label FontSize="20" Content="{DynamicResource Column}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2">
+                            <TextBox x:Name="SelectedX" Margin="5" FontSize="20" TextAlignment="Right" Text="{Binding SelectedX,Mode= TwoWay}" />
+                            <TextBox x:Name="SelectedY" Margin="5" FontSize="20" TextAlignment="Right" Text="{Binding SelectedY,Mode=TwoWay}"  />
+                        </StackPanel>
+                    </Grid>
+                    <!--<Button DockPanel.Dock="Left" Margin="5" Padding="5" Content="{DynamicResource PrintAgain}" />-->
+                    <Button DockPanel.Dock="Left" Margin="5" Padding="5" Content="{DynamicResource PrintButton}" Command="{Binding Print}" />
+                    <Button DockPanel.Dock="Right" Margin="5" Padding="5" Content="{DynamicResource DeleteCell}" Command="{Binding DeleteCell}"/>
+                    <CheckBox HorizontalContentAlignment="Center" Margin="5" Content="{DynamicResource AutoPrint}" IsChecked="{Binding AutoPrint,Mode=TwoWay}"></CheckBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource ReadyPrint}" Visibility="{Binding VisibleSeveralPrinting}">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource ReadyPhotos}" TextAlignment="Center" Margin="0,5,0,0"></TextBlock>
+                    <TextBlock Text="{Binding PrintStatus}" TextAlignment="Center" FontSize="20" FontWeight="Bold" Margin="5"></TextBlock>
+                    <Button Content="{DynamicResource PrintNow}" Margin="20,0,20,0" Command="{Binding PrintNow}" Height="30"></Button>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource FillCountGroupBox}" Margin="5" Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label VerticalAlignment="Center" FontSize="20" Content="{DynamicResource FillCountLabel}"></Label>
+                    <TextBox Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" FontSize="20" TextAlignment="Right" Text="{Binding FillCount,Mode= TwoWay}" />
+                    <Button Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Height="30" Margin="10" Content="{DynamicResource FillButton}" Command="{Binding FillCopies}"></Button>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource ControlPuzzle}" Margin="5" Padding="5" Visibility="{Binding VisibleMenuButtons}">
+                <StackPanel Orientation="Vertical">
+                    <Button Content="{Binding PauseContent}" Margin="10" Command="{Binding Pause}"></Button>
+                    <Button Content="{DynamicResource Stop}" Margin="10" Command="{Binding Stop}"></Button>
+                    <Button Content="{DynamicResource Save}" Margin="10" Command="{Binding Save}"></Button>
+                    <Button Content="{DynamicResource LinkPhoto}" Margin="10" Command="{Binding LinkPhoto}"></Button>
+                    <Button Content="{DynamicResource AddScreen}" Margin="10" Command="{Binding AddScreen}"></Button>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Vertical">
+            </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Visibility="{Binding VisibleMenu}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="{DynamicResource NewCanvas}" HorizontalAlignment="Stretch" Margin="10" Height="50" Command="{Binding NewPuzzle}"></Button>
+            <Button Content="{DynamicResource LoadPuzzle}" HorizontalAlignment="Stretch" Margin="10" Height="50" Command="{Binding LoadPuzzle}"></Button>
+        </StackPanel>
+        <StackPanel Visibility="{Binding VisibleLoading}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="{DynamicResource Waiting}" FontSize="20" FontWeight="Bold" TextAlignment="Center" Margin="0,10,0,0"></TextBlock>
+            <controls:ProgressRing Width="500" Height="500" Margin="20" />
+            <TextBlock Height="30" Text="{Binding ReadyStatus}" FontSize="18" FontWeight="Bold" TextAlignment="Center" Margin="0,10,0,0"></TextBlock>
+        </StackPanel>
+            <xctk:Zoombox x:Name="ZoomBox" Visibility="{Binding VisiblePuzzle}" Grid.Column="1" Margin="10,0,0,0" RelativeZoomModifiers="{Binding KeyModifiers, Mode=OneWay}" DragModifiers="{Binding KeyModifiers, Mode=OneWay}" KeepContentInBounds="True" AutoWrapContentWithViewbox="True">
+            <!--<ScrollViewer Visibility="{Binding VisiblePuzzle}" Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">-->
+            <ItemsControl ItemsSource="{Binding LiveCanvas}">
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:LabelVm}">
+                        <Label Height="{Binding Height}" Width="{Binding Width}" Tag="{Binding Tag}" Content="{Binding Content}" FontSize="{Binding FontSize}" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:RectangleVm}">
+                        <Rectangle Fill="Transparent" StrokeThickness="{Binding StrokeThickness}" Stroke="Black" Width="{Binding Width}" Height="{Binding Height}" Tag="{Binding Tag}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:ImageVm}">
+                        <Image Source="{Binding Source}" Height="{Binding Height}" Width="{Binding Width}" Tag="{Binding Tag}"  MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" />
+                    </DataTemplate>
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Height="{Binding HeightCanvas}" Width="{Binding WidthCanvas}" Background="White">
+                            <!--<Canvas.RenderTransform> <ScaleTransform ScaleX="{Binding LiveProgressScale}" ScaleY="{Binding LiveProgressScale}" ></ScaleTransform></Canvas.RenderTransform>-->
+                        </Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}"></Setter>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        <!--</ScrollViewer>-->
+        </xctk:Zoombox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,64 @@
+﻿<Window x:Class="MozaikaApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MozaikaApp.ViewModels"
+        xmlns:converter="clr-namespace:MozaikaApp.Models"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="{Binding AppName}" Background="LightBlue">
+    <Window.DataContext>
+        <local:MainWindowVm/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converter:TabSizeConverter x:Key="TabSizeConverter" />
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Width">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource TabSizeConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" />
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl ItemsSource="{Binding Items}" IsEnabled="{Binding IsEditable}" SelectedItem="{Binding SelectedTab}" FontSize="18"  HorizontalAlignment="Stretch" Margin="0,0,0,0"  VerticalAlignment="Stretch">
+            <!--<TabItem Header="{DynamicResource PuzzleSettings}" Height="30">
+            </TabItem>
+        <TabItem Header="{DynamicResource Billboard}" Height="30">
+        </TabItem>
+        <TabItem Header="Live" Height="30">
+        </TabItem>-->
+            <!--<TabControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Header}"/>
+            </DataTemplate>
+        </TabControl.ItemTemplate>-->
+        <!--<TabControl.ContentTemplate>
+            <DataTemplate>
+                <UserControl Content="{Binding Content}"/>
+            </DataTemplate>
+        </TabControl.ContentTemplate>-->
+        <!--<TabItem Header="{DynamicResource PuzzleSettings}" Height="30">
+                <views:SettingsTab/>
+            </TabItem>
+        <TabItem Header="{DynamicResource PrintSettings}" Height="30">
+            <views:PrintSettingsView/>
+        </TabItem>
+        <TabItem Header="Live" Height="30">
+            <views:ProgressLiveView/>
+        </TabItem>-->
+        </TabControl>
+        <UserControl Grid.Row="1" Content="{Binding Content}" FontSize="18"></UserControl>
+        </Grid>
+</Window>
